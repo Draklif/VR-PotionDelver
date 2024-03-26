@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Interactable
+  - Fire
+  - BottleRG
+  - BottleRB
+  - BottleRGB
+  - BottleGB
   layers:
   - Default
   - TransparentFX
