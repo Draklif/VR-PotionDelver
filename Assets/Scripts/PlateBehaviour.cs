@@ -20,7 +20,6 @@ public class PlateBehaviour : MonoBehaviour
         {
             heldObject.transform.Rotate(Vector3.up * (10 * Time.deltaTime));
         }
-        
     }
 
     public void OnPointerClickXR()
