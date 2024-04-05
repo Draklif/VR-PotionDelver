@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class PotBehaviour : MonoBehaviour
 {
+    [SerializeField] GameObject fireRed, fireGreen, fireBlue;
+
+    public AudioClip soundLight;
+    public AudioClip soundPour;
+    public AudioClip soundGood;
+    public AudioClip soundBad;
+
     GrabManager grabManager;
 
-    [SerializeField] GameObject fireRed, fireGreen, fireBlue;
+    private AudioSource player;
 
     void Start()
     {
+        player = GetComponent<AudioSource>();
         grabManager = GameObject.Find("GrabManager").GetComponent<GrabManager>();
     }
 
@@ -19,6 +27,7 @@ public class PotBehaviour : MonoBehaviour
         {
             string name = grabManager.heldItem.GetComponent<GrabObject>().transform.name;
 
+            player.PlayOneShot(soundPour);
             if (name.Equals("Bottle_01"))
             {
                 grabManager.heldItem.GetComponent<GrabObject>().Drop();
@@ -44,6 +53,7 @@ public class PotBehaviour : MonoBehaviour
     private void CheckColor()
     {
         List<GameObject> products = grabManager.products;
+        player.PlayOneShot(soundLight);
         foreach (GameObject product in products)
         {
             GrabObject grabObject = product.GetComponent<GrabObject>();
@@ -53,6 +63,7 @@ public class PotBehaviour : MonoBehaviour
                 {
                     if (grabObject.type.Equals("RG"))
                     {
+                        player.PlayOneShot(soundGood);
                         product.SetActive(true);
                         DisableFire();
                     }
@@ -63,6 +74,7 @@ public class PotBehaviour : MonoBehaviour
                 {
                     if (grabObject.type.Equals("RB"))
                     {
+                        player.PlayOneShot(soundGood);
                         product.SetActive(true);
                         DisableFire();  
                     }
@@ -72,6 +84,7 @@ public class PotBehaviour : MonoBehaviour
                 {
                     if (grabObject.type.Equals("RGB"))
                     {
+                        player.PlayOneShot(soundGood);
                         product.SetActive(true);
                         DisableFire();
                     }
@@ -84,6 +97,7 @@ public class PotBehaviour : MonoBehaviour
                 {
                     if (grabObject.type.Equals("GB"))
                     {
+                        player.PlayOneShot(soundGood);
                         product.SetActive(true);
                         DisableFire();
                     }
@@ -91,7 +105,6 @@ public class PotBehaviour : MonoBehaviour
                 }
             }
         }
-        
         DisableFire();
     }
 

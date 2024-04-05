@@ -10,24 +10,27 @@ public class TeleportPoint : MonoBehaviour
     public UnityEvent OnTeleport;
     public UnityEvent OnTeleportExit;
 
+    public AudioClip soundSteps;
+
+    private AudioSource player;
     private bool isEnabled = true;
 
     void Start()
     {
+        player = GetComponent<AudioSource>();
         transform.GetChild(0).gameObject.SetActive(false);
     } 
 
     public void OnPointerEnterXR()
     {
-        
         OnTeleportEnter?.Invoke();
-        
     }
 
     public void OnPointerClickXR()
     {
         if (isEnabled)
         {
+            player.PlayOneShot(soundSteps);
             ExecuteTeleport();
             OnTeleport?.Invoke();
             TeleportManager.Instance.DisableTeleportPoint(gameObject);

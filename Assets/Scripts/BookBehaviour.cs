@@ -5,16 +5,23 @@ using TMPro;
 
 public class BookBehaviour : MonoBehaviour
 {
+    [SerializeField] public TextMeshProUGUI canvasText;
+
+    public AudioClip soundPage;
+    public AudioClip soundGood;
+    public AudioClip soundBad;
+
     GameObject canvas;
     PlateBehaviour plate;
 
     string actualOrder;
     List<string> listOrder = new List<string>();
 
-    [SerializeField] public TextMeshProUGUI canvasText;
+    private AudioSource player;
 
     private void Start()
     {
+        player = GetComponent<AudioSource>();
         canvas = transform.GetChild(0).gameObject;
         plate = GameObject.Find("Plate").GetComponent<PlateBehaviour>();
 
@@ -38,10 +45,12 @@ public class BookBehaviour : MonoBehaviour
             GrabObject plateObject = plate.heldObject.GetComponent<GrabObject>();
             if (ValidateOrder(plateObject.type, actualOrder))
             {
+                player.PlayOneShot(soundGood);
                 canvasText.text = "¡Bien!";
             }
             else
             {
+                player.PlayOneShot(soundBad);
                 canvasText.text = "¡Incorrecto!";
             }
 
@@ -66,6 +75,7 @@ public class BookBehaviour : MonoBehaviour
 
     public void OnPointerEnterXR()
     {
+        player.PlayOneShot(soundPage);
         canvas.SetActive(true);
         canvas.transform.LookAt(GameObject.Find("Player").transform.position);
         canvas.transform.Rotate(transform.up, 180);

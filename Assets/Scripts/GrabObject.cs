@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class GrabObject : MonoBehaviour
 {
@@ -10,11 +9,17 @@ public class GrabObject : MonoBehaviour
     Vector3 spawnerPosition;
     Quaternion spawnerRotation;
 
+    public AudioClip soundGrab;
+    public AudioClip soundPlace;
+
     [SerializeField] public string type = "Potion";
     [SerializeField] public GameObject spawner;
 
+    private AudioSource player;
+
     void Start()
     {
+        player = GetComponent<AudioSource>();
         spawnerPosition = spawner.transform.position;
         spawnerRotation = spawner.transform.rotation;
         boxCollider = GetComponent<BoxCollider>();
@@ -23,6 +28,7 @@ public class GrabObject : MonoBehaviour
 
     public void Grab()
     {
+        player.PlayOneShot(soundGrab);
         if (grabManager.heldItem != null)
         {
             grabManager.heldItem.GetComponent<GrabObject>().Drop();
@@ -58,6 +64,7 @@ public class GrabObject : MonoBehaviour
 
     public void Place(Vector3 position)
     {
+        player.PlayOneShot(soundPlace);
         transform.position = position;
         grabManager.heldItem = null;
         boxCollider.enabled = true;
